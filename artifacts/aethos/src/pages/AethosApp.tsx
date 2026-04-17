@@ -53,24 +53,25 @@ export default function AethosApp() {
   return (
     /* Page background — very light cool blue */
     <div
-      className="min-h-screen w-full flex items-center justify-center"
+      className="min-h-screen w-full"
       style={{
         background: "linear-gradient(160deg, #cddff2 0%, #d9d4ee 35%, #e8d8e0 65%, #ecddd6 100%)",
-        padding: "clamp(10px, 3vw, 32px)",
+        /* 1 inch (96px) top/left/right, 0 bottom */
+        padding: "clamp(16px, 5vw, 96px) clamp(16px, 5vw, 96px) 0",
       }}
     >
-      {/* ── App shell ── */}
+      {/* ── App shell — fills from top-margin to bottom of viewport ── */}
       <div
         className="w-full flex flex-col overflow-hidden"
         style={{
-          maxWidth: "1100px",
-          /* On large screens: fixed height card. On small: auto height */
-          height: "clamp(560px, 80vh, 680px)",
-          borderRadius: "clamp(16px, 2.5vw, 28px)",
-          background: "rgba(245,247,250,0.80)",
+          height: "calc(100vh - clamp(16px, 5vw, 96px))",
+          /* Rounded only on top corners; flat at the bottom (no space) */
+          borderRadius: "clamp(14px, 2vw, 26px) clamp(14px, 2vw, 26px) 0 0",
+          background: "rgba(245,247,250,0.82)",
           backdropFilter: "blur(40px)",
           WebkitBackdropFilter: "blur(40px)",
           border: "1px solid rgba(255,255,255,0.80)",
+          borderBottom: "none",
           boxShadow:
             "0 2px 0 rgba(255,255,255,0.90) inset, " +
             "0 40px 80px rgba(0,0,0,0.10), " +
