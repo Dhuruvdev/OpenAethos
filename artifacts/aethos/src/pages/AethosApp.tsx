@@ -51,25 +51,21 @@ export default function AethosApp() {
   const handleActivate = useCallback(() => setAIState("ready"), []);
 
   return (
-    /* Page background — very light cool blue */
     <div
-      className="min-h-screen w-full"
+      className="min-h-screen w-full overflow-hidden"
       style={{
         background: "linear-gradient(160deg, #cddff2 0%, #d9d4ee 35%, #e8d8e0 65%, #ecddd6 100%)",
-        /* 1 inch top only — left, right, bottom: no space */
-        paddingTop: "clamp(16px, 5vw, 96px)",
+        paddingTop: 0,
         paddingLeft: 0,
         paddingRight: 0,
         paddingBottom: 0,
       }}
     >
-      {/* ── App shell — fills from top-margin to bottom of viewport ── */}
       <div
         className="w-full flex flex-col overflow-hidden"
         style={{
-          height: "calc(100vh - clamp(16px, 5vw, 96px))",
-          /* Rounded top corners only; all other edges flush to viewport */
-          borderRadius: "clamp(12px, 1.8vw, 24px) clamp(12px, 1.8vw, 24px) 0 0",
+          height: "100vh",
+          borderRadius: 0,
           background: "rgba(245,247,250,0.82)",
           backdropFilter: "blur(40px)",
           WebkitBackdropFilter: "blur(40px)",
@@ -83,7 +79,6 @@ export default function AethosApp() {
             "0 8px 24px rgba(0,0,0,0.07)",
         }}
       >
-        {/* Top bar */}
         <TopBar
           onSearch={setSearchValue}
           searchValue={searchValue}
@@ -91,12 +86,9 @@ export default function AethosApp() {
           onMenuToggle={() => setSidebarOpen(o => !o)}
         />
 
-        {/* Body row */}
         <div className="flex flex-1 overflow-hidden">
-          {/* Sidebar (desktop always visible, mobile drawer) */}
           <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-          {/* Canvas */}
           <div className="flex-1 overflow-hidden flex flex-col">
             <WorkflowCanvas
               state={canvasState}
@@ -106,7 +98,6 @@ export default function AethosApp() {
               onChipClick={handleChipClick}
             />
 
-            {/* Mobile: AI panel toggle button */}
             {canvasState !== "empty" && (
               <div className="sm:hidden px-3 pb-3">
                 <button
@@ -122,7 +113,6 @@ export default function AethosApp() {
               </div>
             )}
 
-            {/* Mobile: AI panel inline */}
             {showAiMobile && (
               <div className="sm:hidden px-3 pb-3 h-[320px] shrink-0">
                 <AIPanel
@@ -135,7 +125,6 @@ export default function AethosApp() {
             )}
           </div>
 
-          {/* AI panel (desktop) */}
           <div
             className="hidden sm:flex shrink-0 flex-col p-3"
             style={{ width: "240px" }}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AtSign, Send, Calendar, Sheet, FileText, Mail, ChevronRight } from "lucide-react";
+import { AtSign, Send, Calendar, Sheet, FileText, Mail, ChevronRight, Plus, Mic } from "lucide-react";
 
 interface WorkflowCanvasProps {
   state: "empty" | "loading" | "workflow";
@@ -54,8 +54,11 @@ const chips = [
 function SheetsIcon() {
   return (
     <div
-      className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-      style={{ background: "#1FA463" }}
+      className="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0"
+      style={{
+        background: "linear-gradient(145deg, #1FA463, #18B66F)",
+        boxShadow: "0 8px 18px rgba(31,164,99,0.24), inset 0 1px 0 rgba(255,255,255,0.25)",
+      }}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="white" opacity="0.9" />
@@ -217,65 +220,79 @@ function EmptyState({ inputValue, onInputChange, onSubmit, onChipClick }: Omit<W
   const [focused, setFocused] = useState(false);
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center gap-6 px-6 py-8">
-      {/* Heading */}
-      <h1 className="text-[26px] sm:text-[28px] font-bold tracking-tight text-[#1A1A1A] text-center leading-tight">
+    <div className="flex-1 flex flex-col items-center justify-center gap-7 px-5 py-8">
+      <h1 className="text-[28px] sm:text-[34px] font-semibold tracking-[-0.035em] text-[#151515] text-center leading-[1.08]">
         Describe what you want
         <br />
         to automate
       </h1>
 
-      {/* Input card */}
       <div
-        className="w-full max-w-[440px] rounded-2xl px-4 py-3.5 transition-all duration-200"
+        className="w-full max-w-[560px] rounded-[32px] p-2 transition-all duration-300"
         style={{
-          background: "rgba(255,255,255,0.92)",
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.88))",
           border: focused
-            ? "1px solid rgba(96,165,250,0.5)"
-            : "1px solid rgba(0,0,0,0.10)",
+            ? "1px solid rgba(90,128,255,0.48)"
+            : "1px solid rgba(255,255,255,0.74)",
           boxShadow: focused
-            ? "0 0 0 3px rgba(96,165,250,0.10), 0 4px 16px rgba(0,0,0,0.08)"
-            : "0 4px 16px rgba(0,0,0,0.08)",
+            ? "0 0 0 6px rgba(96,165,250,0.12), 0 22px 55px rgba(51,63,94,0.18), inset 0 1px 0 rgba(255,255,255,0.9)"
+            : "0 20px 48px rgba(51,63,94,0.16), 0 6px 16px rgba(51,63,94,0.08), inset 0 1px 0 rgba(255,255,255,0.95)",
         }}
       >
-        <div className="flex items-start gap-3">
-          <SheetsIcon />
-          <textarea
-            value={inputValue}
-            onChange={(e) => onInputChange(e.target.value)}
-            placeholder={`"Every Monday send sales report from Google Sheets to my manager"`}
-            className="flex-1 bg-transparent text-sm text-gray-700 placeholder:text-gray-400 outline-none resize-none leading-relaxed pt-1"
-            rows={2}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey && inputValue.trim()) {
-                e.preventDefault();
-                onSubmit();
-              }
-            }}
-          />
-          <div className="flex items-center gap-1 shrink-0 self-end pb-0.5">
-            <button className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 transition-colors">
-              <AtSign size={14} />
-            </button>
+        <div className="rounded-[26px] px-4 py-3.5" style={{ background: "rgba(255,255,255,0.62)" }}>
+          <div className="flex items-start gap-3.5">
+            <SheetsIcon />
+            <textarea
+              value={inputValue}
+              onChange={(e) => onInputChange(e.target.value)}
+              placeholder="Ask Aethos to build a workflow..."
+              className="min-h-[72px] flex-1 bg-transparent text-[15px] text-gray-800 placeholder:text-gray-400 outline-none resize-none leading-relaxed pt-1"
+              rows={3}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey && inputValue.trim()) {
+                  e.preventDefault();
+                  onSubmit();
+                }
+              }}
+            />
+          </div>
+
+          <div className="mt-3 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <button className="h-9 w-9 rounded-full flex items-center justify-center text-gray-500 hover:text-gray-700 transition-all hover:bg-gray-100/80">
+                <Plus size={17} strokeWidth={2} />
+              </button>
+              <button className="h-9 px-3 rounded-full flex items-center gap-1.5 text-[13px] font-medium text-gray-500 hover:text-gray-700 transition-all hover:bg-gray-100/80">
+                <AtSign size={14} />
+                Mention
+              </button>
+              <button className="h-9 w-9 rounded-full flex items-center justify-center text-gray-500 hover:text-gray-700 transition-all hover:bg-gray-100/80">
+                <Mic size={15} />
+              </button>
+            </div>
+
             <button
               onClick={onSubmit}
               disabled={!inputValue.trim()}
-              className="w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-150 disabled:opacity-30"
+              className="h-10 w-10 rounded-full flex items-center justify-center transition-all duration-200 disabled:opacity-35 disabled:scale-95 active:scale-95"
               style={{
                 background: inputValue.trim()
-                  ? "linear-gradient(135deg, #60A5FA, #F97316)"
-                  : "transparent",
+                  ? "linear-gradient(135deg, #111827 0%, #4F46E5 52%, #F97316 100%)"
+                  : "rgba(17,24,39,0.08)",
+                boxShadow: inputValue.trim()
+                  ? "0 12px 24px rgba(79,70,229,0.28)"
+                  : "none",
               }}
             >
-              <Send size={13} className={inputValue.trim() ? "text-white" : "text-gray-400"} />
+              <Send size={16} className={inputValue.trim() ? "text-white" : "text-gray-400"} />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Chips */}
       <div className="flex flex-wrap items-center justify-center gap-2.5">
         {chips.map(({ label, Icon }) => (
           <button
@@ -300,10 +317,9 @@ function EmptyState({ inputValue, onInputChange, onSubmit, onChipClick }: Omit<W
 /* ── Main export ── */
 export function WorkflowCanvas({ state, inputValue, onInputChange, onSubmit, onChipClick }: WorkflowCanvasProps) {
   return (
-    <div className="flex-1 relative overflow-hidden flex items-stretch p-3 sm:p-4">
-      {/* Outer canvas card */}
+    <div className="flex-1 relative overflow-hidden flex items-stretch p-0 sm:p-0">
       <div
-        className="flex-1 rounded-3xl overflow-hidden flex flex-col"
+        className="flex-1 overflow-hidden flex flex-col"
         style={{
           background:
             "radial-gradient(ellipse 70% 55% at 15% 15%, rgba(147,210,255,0.65) 0%, transparent 60%), " +
