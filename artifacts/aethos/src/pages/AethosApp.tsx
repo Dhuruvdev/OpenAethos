@@ -12,77 +12,69 @@ export default function AethosApp() {
   const [searchValue, setSearchValue] = useState("");
   const [canvasState, setCanvasState] = useState<CanvasState>("empty");
   const [aiState, setAIState] = useState<AIState>("idle");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showAiMobile, setShowAiMobile] = useState(false);
+
+  const triggerBuild = useCallback(() => {
+    setCanvasState("loading");
+    setAIState("idle");
+    setTimeout(() => {
+      setCanvasState("workflow");
+      setTimeout(() => setAIState("explaining"), 350);
+    }, 1800);
+  }, []);
 
   const handleSubmit = useCallback(() => {
     if (!inputValue.trim() && !searchValue.trim()) return;
-    setCanvasState("loading");
-    setAIState("idle");
-
-    // Simulate loading then show workflow
-    setTimeout(() => {
-      setCanvasState("workflow");
-      // Slight delay before AI starts explaining
-      setTimeout(() => {
-        setAIState("explaining");
-      }, 400);
-    }, 1800);
-  }, [inputValue, searchValue]);
+    triggerBuild();
+  }, [inputValue, searchValue, triggerBuild]);
 
   const handleChipClick = useCallback((chip: string) => {
     setInputValue(chip);
-    setTimeout(() => {
-      setCanvasState("loading");
-      setAIState("idle");
-      setTimeout(() => {
-        setCanvasState("workflow");
-        setTimeout(() => setAIState("explaining"), 400);
-      }, 1800);
-    }, 100);
-  }, []);
+    setTimeout(triggerBuild, 120);
+  }, [triggerBuild]);
 
   const handleRunAll = useCallback(() => {
-    if (searchValue.trim()) {
-      setInputValue(searchValue);
-    }
-    handleSubmit();
-  }, [searchValue, handleSubmit]);
+    if (searchValue.trim()) setInputValue(searchValue);
+    triggerBuild();
+  }, [searchValue, triggerBuild]);
 
   const handleRegenerate = useCallback(() => {
     setCanvasState("loading");
     setAIState("idle");
     setTimeout(() => {
       setCanvasState("workflow");
-      setTimeout(() => setAIState("explaining"), 400);
+      setTimeout(() => setAIState("explaining"), 350);
     }, 1500);
   }, []);
 
-  const handleActivate = useCallback(() => {
-    setAIState("ready");
-  }, []);
-
-  const handleReset = useCallback(() => {
-    setCanvasState("empty");
-    setAIState("idle");
-    setInputValue("");
-    setSearchValue("");
-  }, []);
+  const handleActivate = useCallback(() => setAIState("ready"), []);
 
   return (
+    /* Page background — very light cool blue */
     <div
-      className="min-h-screen w-full flex items-center justify-center p-4"
+      className="min-h-screen w-full flex items-center justify-center"
       style={{
-        background: "linear-gradient(135deg, #e8eef8 0%, #f0e8f8 30%, #f8ece8 60%, #f8f4e8 100%)",
+        background: "linear-gradient(160deg, #cddff2 0%, #d9d4ee 35%, #e8d8e0 65%, #ecddd6 100%)",
+        padding: "clamp(10px, 3vw, 32px)",
       }}
     >
-      {/* Main app shell */}
+      {/* ── App shell ── */}
       <div
-        className="w-full max-w-[1100px] h-[640px] rounded-[28px] overflow-hidden flex flex-col"
+        className="w-full flex flex-col overflow-hidden"
         style={{
-          background: "rgba(247, 247, 248, 0.82)",
+          maxWidth: "1100px",
+          /* On large screens: fixed height card. On small: auto height */
+          height: "clamp(560px, 80vh, 680px)",
+          borderRadius: "clamp(16px, 2.5vw, 28px)",
+          background: "rgba(245,247,250,0.80)",
           backdropFilter: "blur(40px)",
           WebkitBackdropFilter: "blur(40px)",
-          border: "1px solid rgba(255,255,255,0.8)",
-          boxShadow: "0 40px 80px rgba(0,0,0,0.12), 0 8px 24px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9)",
+          border: "1px solid rgba(255,255,255,0.80)",
+          boxShadow:
+            "0 2px 0 rgba(255,255,255,0.90) inset, " +
+            "0 40px 80px rgba(0,0,0,0.10), " +
+            "0 8px 24px rgba(0,0,0,0.07)",
         }}
       >
         {/* Top bar */}
@@ -90,30 +82,62 @@ export default function AethosApp() {
           onSearch={setSearchValue}
           searchValue={searchValue}
           onRunAll={handleRunAll}
+          onMenuToggle={() => setSidebarOpen(o => !o)}
         />
 
-        {/* Body */}
-        <div className="flex flex-1 overflow-hidden gap-0">
-          {/* Left sidebar */}
-          <Sidebar />
+        {/* Body row */}
+        <div className="flex flex-1 overflow-hidden">
+          {/* Sidebar (desktop always visible, mobile drawer) */}
+          <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
           {/* Canvas */}
-          <WorkflowCanvas
-            state={canvasState}
-            inputValue={inputValue}
-            onInputChange={setInputValue}
-            onSubmit={handleSubmit}
-            onChipClick={handleChipClick}
-          />
+          <div className="flex-1 overflow-hidden flex flex-col">
+            <WorkflowCanvas
+              state={canvasState}
+              inputValue={inputValue}
+              onInputChange={setInputValue}
+              onSubmit={handleSubmit}
+              onChipClick={handleChipClick}
+            />
 
-          {/* AI panel */}
-          <div className="w-[256px] shrink-0 p-3 flex flex-col">
+            {/* Mobile: AI panel toggle button */}
+            {canvasState !== "empty" && (
+              <div className="sm:hidden px-3 pb-3">
+                <button
+                  onClick={() => setShowAiMobile(o => !o)}
+                  className="w-full py-2.5 rounded-2xl text-sm font-medium text-gray-600 flex items-center justify-center gap-2 transition-all"
+                  style={{
+                    background: "rgba(255,255,255,0.7)",
+                    border: "1px solid rgba(0,0,0,0.09)",
+                  }}
+                >
+                  {showAiMobile ? "Hide AI Panel" : "Show AI Panel"}
+                </button>
+              </div>
+            )}
+
+            {/* Mobile: AI panel inline */}
+            {showAiMobile && (
+              <div className="sm:hidden px-3 pb-3 h-[320px] shrink-0">
+                <AIPanel
+                  state={aiState}
+                  onEdit={handleRegenerate}
+                  onRegenerate={handleRegenerate}
+                  onActivate={handleActivate}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* AI panel (desktop) */}
+          <div
+            className="hidden sm:flex shrink-0 flex-col p-3"
+            style={{ width: "240px" }}
+          >
             <AIPanel
               state={aiState}
               onEdit={handleRegenerate}
-              onRegenerate={() => {
-                handleRegenerate();
-              }}
+              onRegenerate={handleRegenerate}
               onActivate={handleActivate}
             />
           </div>

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { Sparkles, Edit3, RefreshCw, CheckCircle2, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
 import { AethosLogo } from "./AethosLogo";
+import { Edit3, RefreshCw, CheckCircle2, ChevronRight } from "lucide-react";
 
 interface AIPanelProps {
   state: "idle" | "explaining" | "ready";
@@ -9,142 +9,177 @@ interface AIPanelProps {
   onActivate: () => void;
 }
 
-const explanationText =
-  "This workflow runs every Monday morning. It automatically fetches your sales data from Google Sheets, uses AI to generate a concise summary report, then sends it directly to your manager's inbox — all without any manual effort.";
+const EXPLANATION =
+  "This workflow runs every Monday morning. It automatically fetches your latest sales data from Google Sheets, uses AI to generate a clean summary report, then sends it directly to your manager — hands-free.";
 
-function useTypingEffect(text: string, active: boolean, speed = 18) {
-  const [displayed, setDisplayed] = useState("");
+function useTyping(text: string, active: boolean, speed = 16) {
+  const [shown, setShown] = useState("");
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (!active) {
-      setDisplayed("");
-      setDone(false);
-      return;
-    }
-    setDisplayed("");
-    setDone(false);
+    if (!active) { setShown(""); setDone(false); return; }
     let i = 0;
-    const interval = setInterval(() => {
+    setShown("");
+    setDone(false);
+    const t = setInterval(() => {
       i++;
-      setDisplayed(text.slice(0, i));
-      if (i >= text.length) {
-        clearInterval(interval);
-        setDone(true);
-      }
+      setShown(text.slice(0, i));
+      if (i >= text.length) { clearInterval(t); setDone(true); }
     }, speed);
-    return () => clearInterval(interval);
-  }, [text, active]);
+    return () => clearInterval(t);
+  }, [active, text]);
 
-  return { displayed, done };
+  return { shown, done };
 }
 
+/* ── Idle ── */
 function IdlePanel() {
   return (
     <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="p-4 border-b border-white/40">
-        <div className="flex items-center gap-2 mb-1">
-          <Sparkles size={14} className="text-blue-400" />
-          <h3 className="text-sm font-semibold text-[#1A1A1A]">AI Workflow Builder</h3>
-        </div>
-        <p className="text-xs text-gray-500 leading-relaxed">
-          Hi <span className="font-medium text-[#1A1A1A]">David</span>, I'm here to help you automate your repetitive tasks easily.
+      {/* Title block */}
+      <div className="px-4 pt-4 pb-3">
+        <h3 className="text-[15px] font-bold text-[#1A1A1A] mb-2 leading-snug">
+          AI Workflow Builder
+        </h3>
+        <p className="text-[12.5px] text-gray-500 leading-relaxed">
+          Hi <span className="font-semibold text-[#1A1A1A]">David</span>, I'm here to help you automate your repetitive tasks easily.
         </p>
       </div>
 
+      {/* Divider */}
+      <div className="mx-4 mb-3" style={{ borderTop: "1px solid rgba(0,0,0,0.07)" }} />
+
       {/* How it works */}
-      <div className="px-4 py-3">
-        <p className="text-xs font-semibold text-gray-700 mb-3">How it works</p>
-        <div className="flex flex-col gap-2.5">
+      <div className="px-4 mb-4">
+        <p className="text-[11.5px] font-semibold text-gray-700 mb-3">How it works</p>
+        <div className="flex flex-col gap-3">
           {[
             "Describe your workflow",
             "Aethos builds it for you",
             "Confirm & activate it..",
           ].map((step, i) => (
             <div key={i} className="flex items-center gap-3">
-              <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-[10px] font-semibold text-gray-500 bg-gray-100">
+              <div
+                className="w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0 text-[11px] font-bold"
+                style={{
+                  background: "rgba(0,0,0,0.06)",
+                  color: "#6B7280",
+                }}
+              >
                 {i + 1}
               </div>
-              <span className="text-xs text-gray-600">{step}</span>
+              <span className="text-[12.5px] text-gray-600">{step}</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* CTA Card */}
-      <div className="mx-3 mt-auto mb-3 rounded-2xl p-3 bg-gradient-to-br from-white/60 to-blue-50/40 border border-blue-100/60" style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
-        <div className="flex items-center gap-2.5 mb-3">
-          <div className="w-9 h-9 rounded-xl shrink-0 flex items-center justify-center overflow-hidden" style={{ background: "linear-gradient(135deg, rgba(96,165,250,0.2), rgba(249,115,22,0.2))" }}>
-            <AethosLogo size={22} />
-          </div>
-          <p className="text-xs text-gray-600 leading-snug">
-            Describe what you need, and I'll set it up!
-          </p>
-        </div>
-        <button
-          className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-white transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
+      {/* Bottom CTA card */}
+      <div className="mt-auto mx-3 mb-3">
+        <div
+          className="rounded-2xl p-3.5"
           style={{
-            background: "linear-gradient(135deg, #f97316 0%, #fbbf24 100%)",
-            boxShadow: "0 2px 10px rgba(249,115,22,0.3)",
+            background: "rgba(255,255,255,0.7)",
+            border: "1px solid rgba(0,0,0,0.08)",
+            boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
           }}
         >
-          Get started
-          <ChevronRight size={16} />
-        </button>
+          {/* Logo + text row */}
+          <div className="flex items-center gap-2.5 mb-3">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+              style={{
+                background: "linear-gradient(135deg, rgba(96,165,250,0.15), rgba(249,115,22,0.15))",
+                border: "1px solid rgba(96,165,250,0.15)",
+              }}
+            >
+              <AethosLogo size={24} />
+            </div>
+            <p className="text-[12px] text-gray-500 leading-snug flex-1">
+              Describe what you need, and I'll set it up!
+            </p>
+          </div>
+
+          {/* Get started button */}
+          <button
+            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-[13px] font-semibold text-white transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
+            style={{
+              background: "linear-gradient(105deg, #F97316 0%, #FBBF24 100%)",
+              boxShadow: "0 2px 10px rgba(249,115,22,0.35)",
+            }}
+          >
+            Get started
+            <ChevronRight size={16} />
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-function ExplainingPanel({ onEdit, onRegenerate, onActivate, done }: { onEdit: () => void; onRegenerate: () => void; onActivate: () => void; done: boolean; displayedText: string }) {
-  const { displayed, done: typingDone } = useTypingEffect(explanationText, true);
+/* ── Explaining ── */
+function ExplainingPanel({ onEdit, onRegenerate, onActivate }: Omit<AIPanelProps, "state">) {
+  const { shown, done } = useTyping(EXPLANATION, true);
 
   return (
     <div className="flex flex-col h-full">
-      <div className="p-4 border-b border-white/40">
-        <div className="flex items-center gap-2">
-          <Sparkles size={14} className="text-blue-400" />
-          <h3 className="text-sm font-semibold text-[#1A1A1A]">AI Explanation</h3>
+      <div className="px-4 pt-4 pb-3">
+        <h3 className="text-[15px] font-bold text-[#1A1A1A] mb-1">AI Explanation</h3>
+        <div
+          className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full"
+          style={{ background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.2)" }}
+        >
+          <div className="w-[6px] h-[6px] rounded-full bg-green-400 animate-pulse" />
+          <span className="text-[10.5px] font-semibold text-green-700">Analyzing</span>
         </div>
       </div>
 
-      <div className="flex-1 p-4 overflow-y-auto">
-        <p className="text-xs text-gray-600 leading-relaxed">
-          {displayed}
-          {!typingDone && (
-            <span className="cursor-blink inline-block w-0.5 h-3.5 bg-blue-400 ml-0.5 align-middle" />
+      <div className="flex-1 px-4 overflow-y-auto">
+        <p className="text-[12.5px] text-gray-600 leading-relaxed">
+          {shown}
+          {!done && (
+            <span className="cursor-blink inline-block w-[2px] h-[13px] bg-blue-400 ml-0.5 align-middle rounded-full" />
           )}
         </p>
 
-        {typingDone && (
-          <div className="mt-4 fade-in-up">
-            <div className="flex flex-col gap-2 p-3 rounded-xl bg-gradient-to-br from-blue-50/60 to-orange-50/40 border border-blue-100/50">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-400" />
-                <span className="text-[11px] font-medium text-gray-600">Ready to activate</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-[11px] text-gray-500">
-                <span>Runs every Monday at 9:00 AM</span>
-              </div>
+        {done && (
+          <div
+            className="mt-4 p-3 rounded-xl fade-in"
+            style={{ background: "rgba(96,165,250,0.07)", border: "1px solid rgba(96,165,250,0.15)" }}
+          >
+            <div className="flex items-center gap-1.5 mb-1">
+              <div className="w-[6px] h-[6px] rounded-full bg-green-400" />
+              <span className="text-[11px] font-semibold text-gray-700">Ready to activate</span>
             </div>
+            <p className="text-[11px] text-gray-500">Runs every Monday at 9:00 AM</p>
           </div>
         )}
       </div>
 
-      {typingDone && (
-        <div className="p-3 flex flex-col gap-2 border-t border-white/40 fade-in-up">
+      {done && (
+        <div
+          className="p-3 flex flex-col gap-2 fade-in"
+          style={{ borderTop: "1px solid rgba(0,0,0,0.07)" }}
+        >
           <div className="flex gap-2">
             <button
               onClick={onEdit}
-              className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium text-gray-600 bg-white/80 border border-[#EAEAEA] hover:bg-white hover:shadow-sm transition-all duration-150"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-[12px] font-medium text-gray-600 transition-all duration-150 hover:bg-white/80"
+              style={{
+                background: "rgba(255,255,255,0.6)",
+                border: "1px solid rgba(0,0,0,0.10)",
+              }}
             >
               <Edit3 size={12} />
               Edit Logic
             </button>
             <button
               onClick={onRegenerate}
-              className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium text-gray-600 bg-white/80 border border-[#EAEAEA] hover:bg-white hover:shadow-sm transition-all duration-150"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-[12px] font-medium text-gray-600 transition-all duration-150 hover:bg-white/80"
+              style={{
+                background: "rgba(255,255,255,0.6)",
+                border: "1px solid rgba(0,0,0,0.10)",
+              }}
             >
               <RefreshCw size={12} />
               Regenerate
@@ -152,9 +187,9 @@ function ExplainingPanel({ onEdit, onRegenerate, onActivate, done }: { onEdit: (
           </div>
           <button
             onClick={onActivate}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
+            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-semibold text-white transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
             style={{
-              background: "linear-gradient(135deg, #60a5fa 0%, #f97316 100%)",
+              background: "linear-gradient(105deg, #60A5FA 0%, #A78BFA 50%, #F97316 100%)",
               boxShadow: "0 2px 10px rgba(96,165,250,0.3)",
             }}
           >
@@ -167,55 +202,70 @@ function ExplainingPanel({ onEdit, onRegenerate, onActivate, done }: { onEdit: (
   );
 }
 
+/* ── Ready ── */
 function ReadyPanel({ onRegenerate }: { onRegenerate: () => void }) {
   return (
     <div className="flex flex-col h-full">
-      <div className="p-4 border-b border-white/40">
-        <div className="flex items-center gap-2">
-          <CheckCircle2 size={14} className="text-green-500" />
-          <h3 className="text-sm font-semibold text-[#1A1A1A]">Workflow Active</h3>
+      <div className="px-4 pt-4 pb-3">
+        <div className="flex items-center gap-2 mb-1">
+          <CheckCircle2 size={15} className="text-green-500" />
+          <h3 className="text-[15px] font-bold text-[#1A1A1A]">Workflow Active</h3>
+        </div>
+        <div
+          className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full"
+          style={{ background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.2)" }}
+        >
+          <div className="w-[6px] h-[6px] rounded-full bg-green-400 animate-pulse" />
+          <span className="text-[10.5px] font-semibold text-green-700">Running</span>
         </div>
       </div>
 
-      <div className="flex-1 p-4 flex flex-col gap-4">
-        <div className="rounded-2xl p-4 bg-gradient-to-br from-green-50/80 to-emerald-50/40 border border-green-200/60">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-xs font-semibold text-green-700">Running</span>
-          </div>
-          <p className="text-xs text-green-600">
+      <div className="flex-1 px-4 flex flex-col gap-3 overflow-y-auto">
+        <div
+          className="p-3 rounded-xl"
+          style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.15)" }}
+        >
+          <p className="text-[12px] text-green-700">
             Your workflow is live and will run automatically every Monday morning.
           </p>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Next run</p>
-          <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white/80 border border-[#EAEAEA]">
+        <div>
+          <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Next run</p>
+          <div
+            className="flex items-center gap-2 px-3 py-2.5 rounded-xl"
+            style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(0,0,0,0.08)" }}
+          >
             <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-            <span className="text-xs text-gray-700 font-medium">Monday, Apr 21 · 9:00 AM</span>
+            <span className="text-[12.5px] text-gray-700 font-medium">Monday, Apr 21 · 9:00 AM</span>
           </div>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Stats</p>
+        <div>
+          <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Stats</p>
           <div className="grid grid-cols-2 gap-2">
-            {[
-              { label: "Runs", value: "0" },
-              { label: "Success rate", value: "—" },
-            ].map(({ label, value }) => (
-              <div key={label} className="px-3 py-2.5 rounded-xl bg-white/80 border border-[#EAEAEA] text-center">
-                <p className="text-lg font-semibold text-[#1A1A1A]">{value}</p>
-                <p className="text-[10px] text-gray-500 mt-0.5">{label}</p>
+            {[{ label: "Runs", value: "0" }, { label: "Success rate", value: "—" }].map(({ label, value }) => (
+              <div
+                key={label}
+                className="px-3 py-3 rounded-xl text-center"
+                style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(0,0,0,0.08)" }}
+              >
+                <p className="text-xl font-bold text-[#1A1A1A]">{value}</p>
+                <p className="text-[10.5px] text-gray-400 mt-0.5">{label}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="p-3 border-t border-white/40">
+      <div className="p-3" style={{ borderTop: "1px solid rgba(0,0,0,0.07)" }}>
         <button
           onClick={onRegenerate}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-600 bg-white/80 border border-[#EAEAEA] hover:bg-white hover:shadow-sm transition-all duration-150"
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[12.5px] font-medium text-gray-600 transition-all duration-150 hover:bg-white/80"
+          style={{
+            background: "rgba(255,255,255,0.6)",
+            border: "1px solid rgba(0,0,0,0.10)",
+          }}
         >
           <RefreshCw size={13} />
           Create another workflow
@@ -228,18 +278,18 @@ function ReadyPanel({ onRegenerate }: { onRegenerate: () => void }) {
 export function AIPanel({ state, onEdit, onRegenerate, onActivate }: AIPanelProps) {
   return (
     <div
-      className="w-[240px] shrink-0 glass rounded-2xl overflow-hidden flex flex-col"
-      style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}
+      className="flex flex-col h-full rounded-2xl overflow-hidden"
+      style={{
+        background: "rgba(255,255,255,0.88)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        border: "1px solid rgba(255,255,255,0.7)",
+        boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+      }}
     >
       {state === "idle" && <IdlePanel />}
       {state === "explaining" && (
-        <ExplainingPanel
-          onEdit={onEdit}
-          onRegenerate={onRegenerate}
-          onActivate={onActivate}
-          done={true}
-          displayedText={explanationText}
-        />
+        <ExplainingPanel onEdit={onEdit} onRegenerate={onRegenerate} onActivate={onActivate} />
       )}
       {state === "ready" && <ReadyPanel onRegenerate={onRegenerate} />}
     </div>
