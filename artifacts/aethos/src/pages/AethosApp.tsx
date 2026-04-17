@@ -56,8 +56,11 @@ export default function AethosApp() {
       className="min-h-screen w-full"
       style={{
         background: "linear-gradient(160deg, #cddff2 0%, #d9d4ee 35%, #e8d8e0 65%, #ecddd6 100%)",
-        /* 1 inch (96px) top/left/right, 0 bottom */
-        padding: "clamp(16px, 5vw, 96px) clamp(16px, 5vw, 96px) 0",
+        /* 1 inch top only — left, right, bottom: no space */
+        paddingTop: "clamp(16px, 5vw, 96px)",
+        paddingLeft: 0,
+        paddingRight: 0,
+        paddingBottom: 0,
       }}
     >
       {/* ── App shell — fills from top-margin to bottom of viewport ── */}
@@ -65,12 +68,14 @@ export default function AethosApp() {
         className="w-full flex flex-col overflow-hidden"
         style={{
           height: "calc(100vh - clamp(16px, 5vw, 96px))",
-          /* Rounded only on top corners; flat at the bottom (no space) */
-          borderRadius: "clamp(14px, 2vw, 26px) clamp(14px, 2vw, 26px) 0 0",
+          /* Rounded top corners only; all other edges flush to viewport */
+          borderRadius: "clamp(12px, 1.8vw, 24px) clamp(12px, 1.8vw, 24px) 0 0",
           background: "rgba(245,247,250,0.82)",
           backdropFilter: "blur(40px)",
           WebkitBackdropFilter: "blur(40px)",
-          border: "1px solid rgba(255,255,255,0.80)",
+          borderTop: "1px solid rgba(255,255,255,0.80)",
+          borderLeft: "none",
+          borderRight: "none",
           borderBottom: "none",
           boxShadow:
             "0 2px 0 rgba(255,255,255,0.90) inset, " +
