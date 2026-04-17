@@ -21,7 +21,7 @@ export default function AethosApp() {
     setTimeout(() => {
       setCanvasState("workflow");
       setTimeout(() => setAIState("explaining"), 350);
-    }, 1800);
+    }, 2600);
   }, []);
 
   const handleSubmit = useCallback(() => {
@@ -44,7 +44,7 @@ export default function AethosApp() {
     setAIState("idle");
     setTimeout(() => {
       setCanvasState("workflow");
-      setTimeout(() => setAIState("explaining"), 350);
+      setTimeout(() => setAIState("explaining"), 650);
     }, 1500);
   }, []);
 

@@ -1,5 +1,27 @@
 import { useState } from "react";
-import { AtSign, Send, Calendar, Sheet, FileText, Mail, ChevronRight, Plus, Mic } from "lucide-react";
+import {
+  AtSign,
+  Send,
+  Calendar,
+  Sheet,
+  FileText,
+  Mail,
+  Plus,
+  Mic,
+  Zap,
+  Database,
+  Bot,
+  SendHorizontal,
+  GitBranch,
+  CheckCircle2,
+  MoreHorizontal,
+  SlidersHorizontal,
+  ZoomIn,
+  ZoomOut,
+  Sparkles,
+  PlayCircle,
+  FileCheck,
+} from "lucide-react";
 import { AethosLogo } from "./AethosLogo";
 
 interface WorkflowCanvasProps {
@@ -69,27 +91,74 @@ function SheetsIcon() {
 /* ── Loading state ── */
 function LoadingState() {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center gap-5">
-      <div className="relative w-12 h-12">
-        <div
-          className="absolute inset-0 rounded-full border-[2.5px] border-transparent spin-slow"
-          style={{ borderTopColor: "#60A5FA", borderRightColor: "#A78BFA" }}
-        />
-        <div
-          className="absolute inset-1.5 rounded-full border-[2px] border-transparent spin-rev"
-          style={{ borderTopColor: "#F97316", borderLeftColor: "#FBBF24" }}
-        />
-        <div
-          className="absolute inset-3 rounded-full"
-          style={{ background: "linear-gradient(135deg, #60A5FA, #F97316)", opacity: 0.5 }}
-        />
-      </div>
-      <div className="text-center">
-        <p className="text-sm font-medium text-gray-600 mb-2">Opening your workflow…</p>
-        <div className="flex items-center justify-center gap-1.5">
-          <div className="dot-1 w-[6px] h-[6px] rounded-full bg-blue-400" />
-          <div className="dot-2 w-[6px] h-[6px] rounded-full bg-purple-400" />
-          <div className="dot-3 w-[6px] h-[6px] rounded-full bg-orange-400" />
+    <div className="flex-1 relative overflow-hidden flex items-center justify-center px-5">
+      <div className="absolute inset-0 workflow-grid opacity-70" />
+      <div className="absolute w-[520px] h-[520px] rounded-full ai-orb-glow" />
+      <div className="relative w-full max-w-[680px] rounded-[34px] p-4 ai-build-shell">
+        <div className="rounded-[28px] overflow-hidden bg-white/82 border border-white/80 shadow-[0_24px_70px_rgba(91,84,58,0.18)]">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-[#eadfcd]/70">
+            <div className="flex items-center gap-3">
+              <div className="h-11 w-11 rounded-2xl flex items-center justify-center bg-[#fff7df]">
+                <AethosLogo size={32} />
+              </div>
+              <div>
+                <p className="text-[16px] font-semibold tracking-[-0.035em] text-[#18202B]">OpenAethos is building</p>
+                <p className="text-[12px] text-[#7a7166]">Reading your request and mapping the flow</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5 rounded-full px-3 py-1.5 bg-[#eef8fb] text-[#3d8caf] text-[12px] font-semibold">
+              <Sparkles size={13} />
+              Thinking
+            </div>
+          </div>
+
+          <div className="relative h-[300px] sm:h-[330px] bg-[#fffdf8] overflow-hidden">
+            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 680 330" fill="none">
+              <path className="ai-path-draw" d="M122 164 C210 88 286 88 346 154 C400 214 467 226 560 151" stroke="url(#openPath)" strokeWidth="2" strokeLinecap="round" strokeDasharray="7 9" />
+              <path className="ai-path-draw path-delay-1" d="M122 164 C215 245 315 248 374 191 C423 143 479 119 560 151" stroke="url(#openPath2)" strokeWidth="2" strokeLinecap="round" strokeDasharray="7 9" />
+              <defs>
+                <linearGradient id="openPath" x1="110" y1="120" x2="560" y2="170">
+                  <stop stopColor="#7DC7E8" />
+                  <stop offset="0.5" stopColor="#FFE38A" />
+                  <stop offset="1" stopColor="#FF9F5C" />
+                </linearGradient>
+                <linearGradient id="openPath2" x1="110" y1="210" x2="560" y2="120">
+                  <stop stopColor="#FF9F5C" />
+                  <stop offset="0.55" stopColor="#FFE38A" />
+                  <stop offset="1" stopColor="#7DC7E8" />
+                </linearGradient>
+              </defs>
+            </svg>
+            {[
+              { icon: Zap, label: "Trigger", x: "13%", y: "39%", delay: "0s" },
+              { icon: Database, label: "Data", x: "43%", y: "23%", delay: ".22s" },
+              { icon: Bot, label: "AI draft", x: "50%", y: "56%", delay: ".44s" },
+              { icon: SendHorizontal, label: "Send", x: "80%", y: "37%", delay: ".66s" },
+            ].map(({ icon: Icon, label, x, y, delay }) => (
+              <div key={label} className="absolute ai-node-pop" style={{ left: x, top: y, animationDelay: delay }}>
+                <div className="w-[112px] rounded-2xl bg-white border border-[#efe4d0] shadow-[0_14px_34px_rgba(91,84,58,0.13)] px-3 py-3">
+                  <div className="flex items-center gap-2">
+                    <span className="h-8 w-8 rounded-xl flex items-center justify-center bg-gradient-to-br from-[#e6f7ff] via-[#fff6d8] to-[#ffe1c5]">
+                      <Icon size={15} className="text-[#18202B]" />
+                    </span>
+                    <span className="text-[12px] font-semibold text-[#18202B]">{label}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="absolute left-1/2 bottom-7 -translate-x-1/2 w-[78%] max-w-[460px]">
+              <div className="h-2 rounded-full bg-[#efe8dc] overflow-hidden">
+                <div className="h-full rounded-full ai-progress" />
+              </div>
+              <div className="mt-3 flex items-center justify-center gap-2 text-[13px] font-medium text-[#685f55]">
+                <span className="thinking-dot" />
+                Designing canvas
+                <span className="thinking-dot dot-delay-1" />
+                Connecting logic
+                <span className="thinking-dot dot-delay-2" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -152,59 +221,137 @@ const nodes = [
   },
 ];
 
+function WorkflowNodeCard({
+  className,
+  icon: Icon,
+  title,
+  subtitle,
+  accent,
+}: {
+  className: string;
+  icon: typeof Zap;
+  title: string;
+  subtitle: string;
+  accent: string;
+}) {
+  return (
+    <div className={`absolute workflow-node-card ${className}`}>
+      <div className="flex items-center gap-3">
+        <div className="h-10 w-10 rounded-2xl flex items-center justify-center shrink-0" style={{ background: accent }}>
+          <Icon size={17} className="text-[#18202B]" strokeWidth={1.8} />
+        </div>
+        <div className="min-w-0">
+          <p className="text-[13px] font-semibold text-[#18202B] truncate">{title}</p>
+          <p className="text-[11px] text-[#766d63] truncate">{subtitle}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function WorkflowNodes() {
   return (
-    <div className="flex-1 flex flex-col gap-0 px-3 py-4 overflow-y-auto">
-      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-1 fade-in">
-        Workflow Generated
-      </p>
-      <div className="flex flex-col gap-0">
-        {nodes.map((node, i) => {
-          const Icon = node.Icon;
-          const delay = ["fade-in", "fade-in-delay-1", "fade-in-delay-2", "fade-in-delay-3"][i];
-          return (
-            <div key={node.title} className={`flex flex-col items-center ${delay}`}>
-              {/* Card */}
-              <div
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl cursor-pointer group transition-all duration-200 hover:scale-[1.01]"
-                style={{
-                  background: `linear-gradient(120deg, ${node.gradFrom}, ${node.gradTo})`,
-                  border: `1px solid ${node.borderColor}`,
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-                }}
-              >
-                <div
-                  className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ background: node.iconBg }}
-                >
-                  <Icon size={17} style={{ color: node.iconColor }} strokeWidth={1.8} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-[13px] font-semibold text-[#1A1A1A]">{node.title}</span>
-                    <span
-                      className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
-                      style={{ background: node.tagBg, color: node.tagColor }}
-                    >
-                      {node.tag}
-                    </span>
-                  </div>
-                  <p className="text-xs text-gray-500 truncate">{node.desc}</p>
-                </div>
-                <ChevronRight size={14} className="text-gray-300 group-hover:text-gray-500 shrink-0 transition-colors" />
-              </div>
-
-              {/* Connector */}
-              {i < nodes.length - 1 && (
-                <div className="flex flex-col items-center py-0.5 gap-[2px]">
-                  <div className="w-px h-3" style={{ background: "linear-gradient(to bottom, rgba(96,165,250,0.5), rgba(167,139,250,0.5))" }} />
-                  <div className="w-[6px] h-[6px] rounded-full" style={{ background: "linear-gradient(135deg, #60A5FA, #A78BFA)" }} />
-                  <div className="w-px h-3" style={{ background: "linear-gradient(to bottom, rgba(167,139,250,0.5), rgba(249,115,22,0.4))" }} />
-                </div>
-              )}
+    <div className="flex-1 p-4 sm:p-6 overflow-hidden workflow-enter">
+      <div className="relative mx-auto h-full max-w-[980px] rounded-[28px] overflow-hidden bg-[#fffdf9] border border-white/90 shadow-[0_34px_80px_rgba(91,84,58,0.18)]">
+        <div className="absolute inset-y-0 left-0 w-10 bg-[#171717] z-20 flex flex-col items-center py-4 gap-3">
+          <div className="h-6 w-6 rounded-lg bg-[#fff2bd] flex items-center justify-center">
+            <Zap size={13} className="text-[#171717]" fill="#171717" />
+          </div>
+          {[Database, Bot, FileCheck, SlidersHorizontal].map((Icon, index) => (
+            <div key={index} className="h-7 w-7 rounded-lg flex items-center justify-center text-white/48 hover:bg-white/10">
+              <Icon size={14} />
             </div>
-          );
-        })}
+          ))}
+          <div className="mt-auto h-7 w-7 rounded-lg bg-white/10" />
+        </div>
+
+        <div className="absolute inset-y-0 left-10 w-[154px] bg-[#eeeafc] border-r border-[#ded7f6] z-10 p-4">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-[13px] font-semibold text-[#252032]">Workflow</p>
+            <MoreHorizontal size={15} className="text-[#77718a]" />
+          </div>
+          <div className="h-2 w-20 rounded-full bg-[#201b2a] mb-5" />
+          <div className="space-y-3">
+            {["New lead", "Fetch sheet", "AI summary", "Manager email"].map((item, index) => (
+              <div key={item} className="flex items-center gap-2 text-[11px] text-[#5f5971]">
+                <span className="h-4 w-4 rounded-full flex items-center justify-center text-[9px] bg-white/75 text-[#4d4760]">{index + 1}</span>
+                <span className="truncate">{item}</span>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8">
+            <p className="text-[10px] uppercase tracking-[0.14em] text-[#7a738c] mb-2">Status</p>
+            {["Running", "Ready", "Needs review"].map((item, index) => (
+              <div key={item} className="flex items-center gap-2 py-1.5 text-[11px] text-[#625c70]">
+                <span className={`h-2 w-2 rounded-full ${index === 0 ? "bg-[#7DC7E8]" : index === 1 ? "bg-[#FFE38A]" : "bg-[#FF9F5C]"}`} />
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="absolute inset-y-0 left-[194px] right-0 workflow-grid bg-[#fffdf9]">
+          <div className="absolute top-4 left-5 right-5 h-10 rounded-2xl bg-white/82 border border-[#efe4d0] flex items-center justify-between px-4 shadow-[0_10px_26px_rgba(91,84,58,0.08)]">
+            <div className="flex items-center gap-2 text-[12px] text-[#6d645b]">
+              <PlayCircle size={14} className="text-[#7DC7E8]" />
+              Weekly report automation
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="h-6 px-2 rounded-full bg-[#eef8fb] flex items-center text-[11px] font-semibold text-[#3d8caf]">AI generated</span>
+              <button className="h-7 px-3 rounded-full text-[11px] font-semibold text-white bg-[#18202B]">Activate</button>
+            </div>
+          </div>
+
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 760 520" fill="none">
+            <path className="draw-path flow-dash" d="M96 212 C175 123 268 119 346 189 C418 254 495 260 604 178" stroke="url(#flowMain)" strokeWidth="2.2" strokeLinecap="round" />
+            <path className="draw-path flow-dash delay-draw-1" d="M96 212 C176 316 283 326 375 253 C438 202 502 184 604 178" stroke="url(#flowAlt)" strokeWidth="2.2" strokeLinecap="round" />
+            <path className="draw-path flow-dash delay-draw-2" d="M346 189 C389 160 432 143 493 119" stroke="#d7c7a4" strokeWidth="1.6" strokeLinecap="round" strokeDasharray="5 8" />
+            <defs>
+              <linearGradient id="flowMain" x1="90" y1="170" x2="610" y2="190">
+                <stop stopColor="#7DC7E8" />
+                <stop offset=".52" stopColor="#FFE38A" />
+                <stop offset="1" stopColor="#FF9F5C" />
+              </linearGradient>
+              <linearGradient id="flowAlt" x1="96" y1="290" x2="604" y2="175">
+                <stop stopColor="#FF9F5C" />
+                <stop offset=".52" stopColor="#FFE38A" />
+                <stop offset="1" stopColor="#7DC7E8" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          <div className="absolute left-[9%] top-[35%] h-3 w-3 rounded-full bg-[#18202B] shadow-[0_0_0_7px_rgba(24,32,43,0.06)]" />
+          <WorkflowNodeCard className="left-[18%] top-[20%] delay-node-1" icon={Calendar} title="Schedule trigger" subtitle="Every Monday at 9 AM" accent="linear-gradient(135deg,#e4f7ff,#fff4cb)" />
+          <WorkflowNodeCard className="left-[39%] top-[36%] delay-node-2" icon={Sheet} title="Fetch sales sheet" subtitle="Read newest rows" accent="linear-gradient(135deg,#edf9ef,#e6f7ff)" />
+          <WorkflowNodeCard className="left-[34%] top-[62%] delay-node-3" icon={Bot} title="AI summarizer" subtitle="Draft clean highlights" accent="linear-gradient(135deg,#fff4cb,#ffe1c5)" />
+          <WorkflowNodeCard className="left-[66%] top-[24%] delay-node-4" icon={FileText} title="Review report" subtitle="Human-friendly card" accent="linear-gradient(135deg,#f0ecff,#fff4cb)" />
+          <WorkflowNodeCard className="left-[69%] top-[58%] delay-node-5" icon={Mail} title="Send to manager" subtitle="manager@company.com" accent="linear-gradient(135deg,#e4f7ff,#ffe1c5)" />
+
+          <div className="absolute right-6 top-[22%] w-[160px] rounded-[22px] bg-white border border-[#efe4d0] shadow-[0_18px_45px_rgba(91,84,58,0.13)] p-3 workflow-node-pop delay-node-6">
+            <div className="h-[70px] rounded-2xl mb-3 bg-[radial-gradient(circle_at_50%_35%,#fff8d7,transparent_28%),radial-gradient(circle_at_38%_42%,#dff5ff,transparent_30%),linear-gradient(135deg,#fffdf8,#ffe3bf)] flex items-center justify-center">
+              <AethosLogo size={42} />
+            </div>
+            <p className="text-[12px] font-semibold text-[#18202B]">Update summary in API</p>
+            <p className="text-[10.5px] text-[#766d63] mt-1">Clean status handoff</p>
+            <button className="mt-3 h-8 w-full rounded-xl bg-[#18202B] text-white text-[11px] font-semibold">View output</button>
+          </div>
+
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 rounded-2xl bg-white/88 border border-[#efe4d0] shadow-[0_14px_30px_rgba(91,84,58,0.10)] p-1.5 flex flex-col gap-1">
+            {[ZoomIn, ZoomOut, Plus, SlidersHorizontal].map((Icon, index) => (
+              <button key={index} className="h-8 w-8 rounded-xl flex items-center justify-center text-[#756c61] hover:bg-[#fff4dd]">
+                <Icon size={14} />
+              </button>
+            ))}
+          </div>
+
+          <div className="absolute left-[44%] top-[50%] rounded-full bg-[#18202B] text-white text-[10px] px-2.5 py-1 shadow-[0_10px_24px_rgba(24,32,43,0.18)] workflow-node-pop delay-node-5">
+            AI decision
+          </div>
+          <div className="absolute bottom-5 left-6 flex items-center gap-2 rounded-full bg-white/82 border border-[#efe4d0] px-3 py-2 shadow-[0_12px_28px_rgba(91,84,58,0.10)]">
+            <CheckCircle2 size={14} className="text-[#58a97b]" />
+            <span className="text-[11px] font-semibold text-[#5d554b]">Workflow generated</span>
+          </div>
+        </div>
       </div>
     </div>
   );

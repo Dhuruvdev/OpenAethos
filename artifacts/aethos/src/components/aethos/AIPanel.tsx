@@ -124,23 +124,50 @@ function ExplainingPanel({ onEdit, onRegenerate, onActivate }: Omit<AIPanelProps
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 pt-4 pb-3">
-        <h3 className="text-[15px] font-bold text-[#1A1A1A] mb-1">Flow Explanation</h3>
+        <h3 className="text-[15px] font-bold text-[#1A1A1A] mb-1">OpenAethos Response</h3>
         <div
           className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full"
-          style={{ background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.2)" }}
+          style={{ background: "rgba(125,199,232,0.12)", border: "1px solid rgba(125,199,232,0.22)" }}
         >
-          <div className="w-[6px] h-[6px] rounded-full bg-green-400 animate-pulse" />
-          <span className="text-[10.5px] font-semibold text-green-700">Analyzing</span>
+          <div className="w-[6px] h-[6px] rounded-full bg-[#7DC7E8] animate-pulse" />
+          <span className="text-[10.5px] font-semibold text-[#3d8caf]">Streaming logic</span>
         </div>
       </div>
 
       <div className="flex-1 px-4 overflow-y-auto">
-        <p className="text-[12.5px] text-gray-600 leading-relaxed">
-          {shown}
-          {!done && (
-            <span className="cursor-blink inline-block w-[2px] h-[13px] bg-blue-400 ml-0.5 align-middle rounded-full" />
-          )}
-        </p>
+        <div
+          className="rounded-2xl p-3.5"
+          style={{
+            background: "linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,250,241,0.66))",
+            border: "1px solid rgba(239,228,208,0.9)",
+            boxShadow: "0 12px 30px rgba(91,84,58,0.08)",
+          }}
+        >
+          <div className="flex items-start gap-2.5">
+            <div className="h-8 w-8 rounded-xl flex items-center justify-center bg-[#fff4dd] shrink-0">
+              <AethosLogo size={22} />
+            </div>
+            <p className="text-[12.5px] text-gray-600 leading-relaxed pt-0.5">
+              {shown}
+              {!done && (
+                <span className="cursor-blink inline-block w-[2px] h-[13px] bg-[#7DC7E8] ml-0.5 align-middle rounded-full" />
+              )}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-3 grid grid-cols-1 gap-2">
+          {["Trigger mapped", "Data source connected", "AI summary prepared"].map((item, index) => (
+            <div
+              key={item}
+              className={`flex items-center gap-2 rounded-xl px-3 py-2 text-[11.5px] text-[#665d53] workflow-node-pop delay-node-${Math.min(index + 1, 3)}`}
+              style={{ background: "rgba(255,255,255,0.58)", border: "1px solid rgba(239,228,208,0.72)" }}
+            >
+              <CheckCircle2 size={13} className={index === 0 ? "text-[#7DC7E8]" : index === 1 ? "text-[#d9b94f]" : "text-[#FF9F5C]"} />
+              {item}
+            </div>
+          ))}
+        </div>
 
         {done && (
           <div
