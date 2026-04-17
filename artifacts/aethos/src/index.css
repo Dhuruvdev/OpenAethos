@@ -54,8 +54,8 @@
   --elevate-1: rgba(0,0,0,.03);
   --elevate-2: rgba(0,0,0,.08);
 
-  --background: 220 25% 96%;
-  --foreground: 220 20% 10%;
+  --background: 42 55% 96%;
+  --foreground: 224 26% 12%;
   --border: 220 15% 88%;
   --card: 0 0% 100%;
   --card-foreground: 220 20% 10%;
@@ -71,14 +71,14 @@
   --popover: 0 0% 100%;
   --popover-foreground: 220 20% 10%;
   --popover-border: 220 15% 88%;
-  --primary: 213 90% 58%;
+  --primary: 204 72% 65%;
   --primary-foreground: 0 0% 100%;
   --secondary: 220 15% 94%;
   --secondary-foreground: 220 20% 30%;
   --muted: 220 15% 94%;
   --muted-foreground: 220 12% 55%;
-  --accent: 213 90% 94%;
-  --accent-foreground: 213 90% 35%;
+  --accent: 36 94% 90%;
+  --accent-foreground: 24 72% 36%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
   --input: 220 15% 86%;
@@ -89,8 +89,8 @@
   --chart-4: 160 60% 45%;
   --chart-5: 280 65% 60%;
 
-  --app-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --app-font-serif: Georgia, serif;
+  --app-font-sans: 'Playfair Display', Georgia, serif;
+  --app-font-serif: 'Playfair Display', Georgia, serif;
   --app-font-mono: Menlo, monospace;
   --radius: .75rem;
 
@@ -125,9 +125,9 @@
   -webkit-backdrop-filter: blur(18px);
 }
 .glass-topbar {
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,250,241,0.74));
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
 
 /* ── Canvas iridescent bg ── */

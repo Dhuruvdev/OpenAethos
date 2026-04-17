@@ -54,7 +54,7 @@ export default function AethosApp() {
     <div
       className="min-h-screen w-full overflow-hidden"
       style={{
-        background: "linear-gradient(160deg, #cddff2 0%, #d9d4ee 35%, #e8d8e0 65%, #ecddd6 100%)",
+        background: "linear-gradient(145deg, #d8effb 0%, #e9f2f4 30%, #fff0ce 62%, #ffd6a7 100%)",
         paddingTop: 0,
         paddingLeft: 0,
         paddingRight: 0,
@@ -66,7 +66,7 @@ export default function AethosApp() {
         style={{
           height: "100vh",
           borderRadius: 0,
-          background: "rgba(245,247,250,0.82)",
+          background: "rgba(255,252,246,0.82)",
           backdropFilter: "blur(40px)",
           WebkitBackdropFilter: "blur(40px)",
           borderTop: "1px solid rgba(255,255,255,0.80)",
@@ -75,8 +75,8 @@ export default function AethosApp() {
           borderBottom: "none",
           boxShadow:
             "0 2px 0 rgba(255,255,255,0.90) inset, " +
-            "0 40px 80px rgba(0,0,0,0.10), " +
-            "0 8px 24px rgba(0,0,0,0.07)",
+            "0 40px 80px rgba(70,68,56,0.10), " +
+            "0 8px 24px rgba(70,68,56,0.07)",
         }}
       >
         <TopBar

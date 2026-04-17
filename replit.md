@@ -18,12 +18,12 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 
 ## Artifacts
 
-### Aethos (`artifacts/aethos`)
+### OpenAethos (`artifacts/aethos`)
 AI-powered workflow automation web app. React + Vite + Tailwind CSS.
 - Preview path: `/`
 - Port: 20020
 - Key files: `src/pages/AethosApp.tsx`, `src/components/aethos/`
-- Design: glassmorphism, iridescent gradients (blue→purple→orange), Apple/OpenAI inspired
+- Design: Playfair Display typography, uploaded iridescent flower logo, soft sky blue→cream→amber palette, Apple/OpenAI inspired
 - Features: node-based workflow canvas, AI panel with typing effect, mobile responsive
 
 ### API Server (`artifacts/api-server`)

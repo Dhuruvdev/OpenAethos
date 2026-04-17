@@ -72,10 +72,10 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           transition-transform duration-300
         `}
         style={{
-          background: "rgba(255,255,255,0.72)",
+          background: "rgba(255,252,246,0.76)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
-          borderRight: "1px solid rgba(0,0,0,0.07)",
+          borderRight: "1px solid rgba(132,105,72,0.12)",
         }}
       >
         {navItems.map(({ icon: Icon, label, active }) => (
@@ -86,18 +86,18 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               active
                 ? {
                     background:
-                      "linear-gradient(108deg, rgba(96,165,250,0.18) 0%, rgba(167,139,250,0.12) 60%, rgba(249,115,22,0.08) 100%)",
-                    border: "1px solid rgba(96,165,250,0.22)",
-                    color: "#1A1A1A",
+                      "linear-gradient(108deg, rgba(125,199,232,0.22) 0%, rgba(255,227,138,0.20) 55%, rgba(255,159,92,0.14) 100%)",
+                    border: "1px solid rgba(125,199,232,0.24)",
+                    color: "#18202B",
                   }
                 : {
-                    color: "#6B7280",
+                    color: "#6E716F",
                     border: "1px solid transparent",
                   }
             }
             onMouseEnter={(e) => {
               if (!active) {
-                (e.currentTarget as HTMLButtonElement).style.background = "rgba(0,0,0,0.04)";
+                (e.currentTarget as HTMLButtonElement).style.background = "rgba(132,105,72,0.06)";
               }
             }}
             onMouseLeave={(e) => {

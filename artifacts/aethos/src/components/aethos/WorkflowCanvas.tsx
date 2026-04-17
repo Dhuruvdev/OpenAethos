@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AtSign, Send, Calendar, Sheet, FileText, Mail, ChevronRight, Plus, Mic } from "lucide-react";
+import { AethosLogo } from "./AethosLogo";
 
 interface WorkflowCanvasProps {
   state: "empty" | "loading" | "workflow";
@@ -56,17 +57,11 @@ function SheetsIcon() {
     <div
       className="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0"
       style={{
-        background: "linear-gradient(145deg, #1FA463, #18B66F)",
-        boxShadow: "0 8px 18px rgba(31,164,99,0.24), inset 0 1px 0 rgba(255,255,255,0.25)",
+        background: "linear-gradient(145deg, rgba(125,199,232,0.16), rgba(255,159,92,0.16))",
+        boxShadow: "0 8px 18px rgba(125,199,232,0.22), inset 0 1px 0 rgba(255,255,255,0.72)",
       }}
     >
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="white" opacity="0.9" />
-        <path d="M14 2v6h6" fill="none" stroke="white" strokeWidth="1.5" />
-        <line x1="8" y1="13" x2="16" y2="13" stroke="#1FA463" strokeWidth="1.5" />
-        <line x1="8" y1="17" x2="16" y2="17" stroke="#1FA463" strokeWidth="1.5" />
-        <line x1="8" y1="9" x2="12" y2="9" stroke="#1FA463" strokeWidth="1.5" />
-      </svg>
+      <AethosLogo size={27} />
     </div>
   );
 }
@@ -90,7 +85,7 @@ function LoadingState() {
         />
       </div>
       <div className="text-center">
-        <p className="text-sm font-medium text-gray-600 mb-2">Building your workflow…</p>
+        <p className="text-sm font-medium text-gray-600 mb-2">Opening your workflow…</p>
         <div className="flex items-center justify-center gap-1.5">
           <div className="dot-1 w-[6px] h-[6px] rounded-full bg-blue-400" />
           <div className="dot-2 w-[6px] h-[6px] rounded-full bg-purple-400" />
@@ -221,8 +216,8 @@ function EmptyState({ inputValue, onInputChange, onSubmit, onChipClick }: Omit<W
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center gap-7 px-5 py-8">
-      <h1 className="text-[28px] sm:text-[34px] font-semibold tracking-[-0.035em] text-[#151515] text-center leading-[1.08]">
-        Describe what you want
+      <h1 className="text-[31px] sm:text-[40px] font-semibold tracking-[-0.045em] text-[#18202B] text-center leading-[1.04]">
+        Open the work you want
         <br />
         to automate
       </h1>
@@ -233,11 +228,11 @@ function EmptyState({ inputValue, onInputChange, onSubmit, onChipClick }: Omit<W
           background:
             "linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.88))",
           border: focused
-            ? "1px solid rgba(90,128,255,0.48)"
-            : "1px solid rgba(255,255,255,0.74)",
+            ? "1px solid rgba(125,199,232,0.62)"
+            : "1px solid rgba(255,255,255,0.78)",
           boxShadow: focused
-            ? "0 0 0 6px rgba(96,165,250,0.12), 0 22px 55px rgba(51,63,94,0.18), inset 0 1px 0 rgba(255,255,255,0.9)"
-            : "0 20px 48px rgba(51,63,94,0.16), 0 6px 16px rgba(51,63,94,0.08), inset 0 1px 0 rgba(255,255,255,0.95)",
+            ? "0 0 0 6px rgba(125,199,232,0.14), 0 22px 55px rgba(91,84,58,0.17), inset 0 1px 0 rgba(255,255,255,0.9)"
+            : "0 20px 48px rgba(91,84,58,0.15), 0 6px 16px rgba(91,84,58,0.08), inset 0 1px 0 rgba(255,255,255,0.95)",
         }}
       >
         <div className="rounded-[26px] px-4 py-3.5" style={{ background: "rgba(255,255,255,0.62)" }}>
@@ -246,7 +241,7 @@ function EmptyState({ inputValue, onInputChange, onSubmit, onChipClick }: Omit<W
             <textarea
               value={inputValue}
               onChange={(e) => onInputChange(e.target.value)}
-              placeholder="Ask Aethos to build a workflow..."
+              placeholder="Ask OpenAethos to turn a task into a flow..."
               className="min-h-[72px] flex-1 bg-transparent text-[15px] text-gray-800 placeholder:text-gray-400 outline-none resize-none leading-relaxed pt-1"
               rows={3}
               onFocus={() => setFocused(true)}
@@ -280,10 +275,10 @@ function EmptyState({ inputValue, onInputChange, onSubmit, onChipClick }: Omit<W
               className="h-10 w-10 rounded-full flex items-center justify-center transition-all duration-200 disabled:opacity-35 disabled:scale-95 active:scale-95"
               style={{
                 background: inputValue.trim()
-                  ? "linear-gradient(135deg, #111827 0%, #4F46E5 52%, #F97316 100%)"
+                  ? "linear-gradient(135deg, #18202B 0%, #7DC7E8 48%, #FF9F5C 100%)"
                   : "rgba(17,24,39,0.08)",
                 boxShadow: inputValue.trim()
-                  ? "0 12px 24px rgba(79,70,229,0.28)"
+                  ? "0 12px 24px rgba(125,199,232,0.28)"
                   : "none",
               }}
             >
@@ -301,8 +296,8 @@ function EmptyState({ inputValue, onInputChange, onSubmit, onChipClick }: Omit<W
             className="flex items-center gap-2 px-3.5 py-2 rounded-full text-[13px] font-medium text-gray-600 transition-all duration-150 hover:scale-[1.02]"
             style={{
               background: "rgba(255,255,255,0.85)",
-              border: "1px solid rgba(0,0,0,0.10)",
-              boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+              border: "1px solid rgba(132,105,72,0.12)",
+              boxShadow: "0 1px 4px rgba(70,68,56,0.06)",
             }}
           >
             <Icon />
@@ -322,13 +317,13 @@ export function WorkflowCanvas({ state, inputValue, onInputChange, onSubmit, onC
         className="flex-1 overflow-hidden flex flex-col"
         style={{
           background:
-            "radial-gradient(ellipse 70% 55% at 15% 15%, rgba(147,210,255,0.65) 0%, transparent 60%), " +
-            "radial-gradient(ellipse 55% 50% at 80% 10%, rgba(190,170,255,0.50) 0%, transparent 55%), " +
-            "radial-gradient(ellipse 65% 50% at 50% 95%, rgba(255,175,100,0.50) 0%, transparent 60%), " +
-            "radial-gradient(ellipse 45% 40% at 90% 85%, rgba(255,120,80,0.30) 0%, transparent 50%), " +
-            "linear-gradient(155deg, #dae8f8 0%, #e5ddf8 45%, #f5e0cc 100%)",
+            "radial-gradient(ellipse 70% 55% at 15% 15%, rgba(147,217,249,0.68) 0%, transparent 60%), " +
+            "radial-gradient(ellipse 55% 50% at 82% 8%, rgba(255,228,149,0.56) 0%, transparent 55%), " +
+            "radial-gradient(ellipse 65% 50% at 50% 95%, rgba(255,177,107,0.54) 0%, transparent 60%), " +
+            "radial-gradient(ellipse 48% 40% at 88% 78%, rgba(255,155,95,0.32) 0%, transparent 50%), " +
+            "linear-gradient(155deg, #d9f0fb 0%, #eff6ef 42%, #fff0cf 70%, #ffd8ad 100%)",
           border: "1px solid rgba(255,255,255,0.70)",
-          boxShadow: "0 2px 20px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.8)",
+          boxShadow: "0 2px 20px rgba(70,68,56,0.07), inset 0 1px 0 rgba(255,255,255,0.8)",
         }}
       >
         {state === "empty" && (

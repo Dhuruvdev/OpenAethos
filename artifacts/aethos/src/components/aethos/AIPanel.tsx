@@ -10,7 +10,7 @@ interface AIPanelProps {
 }
 
 const EXPLANATION =
-  "This workflow runs every Monday morning. It automatically fetches your latest sales data from Google Sheets, uses AI to generate a clean summary report, then sends it directly to your manager — hands-free.";
+  "OpenAethos opens a clear path from request to result. This flow fetches your sales data, drafts a polished summary, and sends it to your manager every Monday morning — without another manual step.";
 
 function useTyping(text: string, active: boolean, speed = 16) {
   const [shown, setShown] = useState("");
@@ -39,10 +39,10 @@ function IdlePanel() {
       {/* Title block */}
       <div className="px-4 pt-4 pb-3">
         <h3 className="text-[15px] font-bold text-[#1A1A1A] mb-2 leading-snug">
-          AI Workflow Builder
+          OpenAethos Studio
         </h3>
         <p className="text-[12.5px] text-gray-500 leading-relaxed">
-          Hi <span className="font-semibold text-[#1A1A1A]">David</span>, I'm here to help you automate your repetitive tasks easily.
+          Hi <span className="font-semibold text-[#1A1A1A]">David</span>, describe the work once. OpenAethos turns it into a calm, running flow.
         </p>
       </div>
 
@@ -54,9 +54,9 @@ function IdlePanel() {
         <p className="text-[11.5px] font-semibold text-gray-700 mb-3">How it works</p>
         <div className="flex flex-col gap-3">
           {[
-            "Describe your workflow",
-            "Aethos builds it for you",
-            "Confirm & activate it..",
+            "Tell OpenAethos the task",
+            "Review the flow it creates",
+            "Confirm and let it run",
           ].map((step, i) => (
             <div key={i} className="flex items-center gap-3">
               <div
@@ -89,14 +89,14 @@ function IdlePanel() {
             <div
               className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
               style={{
-                background: "linear-gradient(135deg, rgba(96,165,250,0.15), rgba(249,115,22,0.15))",
-                border: "1px solid rgba(96,165,250,0.15)",
+                background: "linear-gradient(135deg, rgba(125,199,232,0.16), rgba(255,159,92,0.16))",
+                border: "1px solid rgba(125,199,232,0.18)",
               }}
             >
               <AethosLogo size={24} />
             </div>
             <p className="text-[12px] text-gray-500 leading-snug flex-1">
-              Describe what you need, and I'll set it up!
+              Turn a plain request into a workflow you can trust.
             </p>
           </div>
 
@@ -104,11 +104,11 @@ function IdlePanel() {
           <button
             className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-[13px] font-semibold text-white transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
             style={{
-              background: "linear-gradient(105deg, #F97316 0%, #FBBF24 100%)",
-              boxShadow: "0 2px 10px rgba(249,115,22,0.35)",
+              background: "linear-gradient(105deg, #7DC7E8 0%, #FFE38A 50%, #FF9F5C 100%)",
+              boxShadow: "0 2px 10px rgba(255,159,92,0.32)",
             }}
           >
-            Get started
+            Create a Flow
             <ChevronRight size={16} />
           </button>
         </div>
@@ -124,7 +124,7 @@ function ExplainingPanel({ onEdit, onRegenerate, onActivate }: Omit<AIPanelProps
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 pt-4 pb-3">
-        <h3 className="text-[15px] font-bold text-[#1A1A1A] mb-1">AI Explanation</h3>
+        <h3 className="text-[15px] font-bold text-[#1A1A1A] mb-1">Flow Explanation</h3>
         <div
           className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full"
           style={{ background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.2)" }}
@@ -145,7 +145,7 @@ function ExplainingPanel({ onEdit, onRegenerate, onActivate }: Omit<AIPanelProps
         {done && (
           <div
             className="mt-4 p-3 rounded-xl fade-in"
-            style={{ background: "rgba(96,165,250,0.07)", border: "1px solid rgba(96,165,250,0.15)" }}
+            style={{ background: "rgba(125,199,232,0.08)", border: "1px solid rgba(125,199,232,0.18)" }}
           >
             <div className="flex items-center gap-1.5 mb-1">
               <div className="w-[6px] h-[6px] rounded-full bg-green-400" />
@@ -189,8 +189,8 @@ function ExplainingPanel({ onEdit, onRegenerate, onActivate }: Omit<AIPanelProps
             onClick={onActivate}
             className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-semibold text-white transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
             style={{
-              background: "linear-gradient(105deg, #60A5FA 0%, #A78BFA 50%, #F97316 100%)",
-              boxShadow: "0 2px 10px rgba(96,165,250,0.3)",
+              background: "linear-gradient(105deg, #7DC7E8 0%, #FFE38A 50%, #FF9F5C 100%)",
+              boxShadow: "0 2px 10px rgba(125,199,232,0.3)",
             }}
           >
             <CheckCircle2 size={15} />
@@ -226,7 +226,7 @@ function ReadyPanel({ onRegenerate }: { onRegenerate: () => void }) {
           style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.15)" }}
         >
           <p className="text-[12px] text-green-700">
-            Your workflow is live and will run automatically every Monday morning.
+            Your OpenAethos flow is live and will run automatically every Monday morning.
           </p>
         </div>
 
@@ -268,7 +268,7 @@ function ReadyPanel({ onRegenerate }: { onRegenerate: () => void }) {
           }}
         >
           <RefreshCw size={13} />
-          Create another workflow
+          Create another flow
         </button>
       </div>
     </div>
@@ -280,11 +280,11 @@ export function AIPanel({ state, onEdit, onRegenerate, onActivate }: AIPanelProp
     <div
       className="flex flex-col h-full rounded-2xl overflow-hidden"
       style={{
-        background: "rgba(255,255,255,0.88)",
+        background: "rgba(255,252,246,0.90)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
         border: "1px solid rgba(255,255,255,0.7)",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+        boxShadow: "0 4px 20px rgba(70,68,56,0.08)",
       }}
     >
       {state === "idle" && <IdlePanel />}
