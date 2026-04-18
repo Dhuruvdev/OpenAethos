@@ -24,7 +24,7 @@ AI-powered workflow automation web app. React + Vite + Tailwind CSS.
 - Port: 20020
 - Key files: `src/pages/AethosApp.tsx`, `src/components/aethos/`
 - Design: Playfair Display typography, uploaded iridescent flower logo, soft sky blue→cream→amber palette, Apple/OpenAI inspired
-- Features: professional node-based workflow canvas, cinematic AI loading transition, AI panel with streaming response, mobile responsive
+- Features: professional node-based workflow canvas, 5-second cinematic AI loading transition, auto-saved project pages named from prompt text, Projects sidebar navigation, mobile-specific workflow timeline layout, AI panel with streaming response
 
 ### API Server (`artifacts/api-server`)
 Express 5 backend.

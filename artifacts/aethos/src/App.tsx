@@ -10,6 +10,8 @@ const queryClient = new QueryClient();
 function Router() {
   return (
     <Switch>
+      <Route path="/projects/:slug" component={AethosApp} />
+      <Route path="/projects" component={AethosApp} />
       <Route path="/" component={AethosApp} />
       <Route component={NotFound} />
     </Switch>

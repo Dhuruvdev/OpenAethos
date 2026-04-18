@@ -27,6 +27,8 @@ import { AethosLogo } from "./AethosLogo";
 interface WorkflowCanvasProps {
   state: "empty" | "loading" | "workflow";
   inputValue: string;
+  projectName?: string;
+  projectPrompt?: string;
   onInputChange: (v: string) => void;
   onSubmit: () => void;
   onChipClick: (chip: string) => void;
@@ -89,7 +91,7 @@ function SheetsIcon() {
 }
 
 /* ── Loading state ── */
-function LoadingState() {
+function LoadingState({ projectName }: { projectName?: string }) {
   return (
     <div className="flex-1 relative overflow-hidden flex items-center justify-center px-5">
       <div className="absolute inset-0 workflow-grid opacity-70" />
@@ -103,7 +105,7 @@ function LoadingState() {
               </div>
               <div>
                 <p className="text-[16px] font-semibold tracking-[-0.035em] text-[#18202B]">OpenAethos is building</p>
-                <p className="text-[12px] text-[#7a7166]">Reading your request and mapping the flow</p>
+                <p className="text-[12px] text-[#7a7166]">{projectName ? `Saving “${projectName}” as a new project` : "Reading your request and mapping the flow"}</p>
               </div>
             </div>
             <div className="flex items-center gap-1.5 rounded-full px-3 py-1.5 bg-[#eef8fb] text-[#3d8caf] text-[12px] font-semibold">
@@ -152,7 +154,7 @@ function LoadingState() {
               </div>
               <div className="mt-3 flex items-center justify-center gap-2 text-[13px] font-medium text-[#685f55]">
                 <span className="thinking-dot" />
-                Designing canvas
+                Naming project
                 <span className="thinking-dot dot-delay-1" />
                 Connecting logic
                 <span className="thinking-dot dot-delay-2" />
@@ -249,9 +251,81 @@ function WorkflowNodeCard({
   );
 }
 
-function WorkflowNodes() {
+function MobileWorkflowNodes({ projectName, projectPrompt }: { projectName?: string; projectPrompt?: string }) {
+  const steps = [
+    { Icon: Calendar, title: "Trigger", desc: "Start when this task is due", tone: "from-[#e4f7ff] to-[#fff4cb]" },
+    { Icon: Sheet, title: "Collect data", desc: "Fetch the right source records", tone: "from-[#edf9ef] to-[#e4f7ff]" },
+    { Icon: Bot, title: "AI decision", desc: "Summarize, classify, and prepare output", tone: "from-[#fff4cb] to-[#ffe1c5]" },
+    { Icon: Mail, title: "Deliver", desc: "Send the final result to the right place", tone: "from-[#e4f7ff] to-[#ffe1c5]" },
+  ];
+
   return (
-    <div className="flex-1 p-4 sm:p-6 overflow-hidden workflow-enter">
+    <div className="sm:hidden flex-1 min-h-0 overflow-y-auto workflow-enter px-3 py-3">
+      <div className="rounded-[28px] overflow-hidden bg-[#fffdf9] border border-white/90 shadow-[0_22px_60px_rgba(91,84,58,0.18)]">
+        <div className="p-4 bg-gradient-to-br from-[#171717] via-[#202836] to-[#3f3327] text-white">
+          <div className="flex items-center justify-between">
+            <div className="h-10 w-10 rounded-2xl bg-[#fff4cb] flex items-center justify-center">
+              <Zap size={18} className="text-[#171717]" fill="#171717" />
+            </div>
+            <span className="rounded-full bg-white/12 px-3 py-1 text-[11px] font-semibold border border-white/15">AI generated</span>
+          </div>
+          <h2 className="mt-5 text-[27px] leading-[1.02] tracking-[-0.05em] font-semibold">{projectName ?? "Workflow Project"}</h2>
+          <p className="mt-2 text-[13px] leading-relaxed text-white/72 line-clamp-3">{projectPrompt ?? "A new OpenAethos workflow project is ready to review."}</p>
+        </div>
+
+        <div className="p-4 bg-[#eeeafc] border-b border-[#ded7f6]">
+          <p className="text-[10px] uppercase tracking-[0.16em] text-[#7a738c] mb-3">Workflow steps</p>
+          <div className="grid grid-cols-4 gap-2">
+            {steps.map((step, index) => (
+              <div key={step.title} className="rounded-2xl bg-white/68 p-2 text-center border border-white/80">
+                <span className="mx-auto mb-1 h-5 w-5 rounded-full bg-white flex items-center justify-center text-[10px] text-[#4d4760]">{index + 1}</span>
+                <p className="text-[10.5px] leading-tight text-[#5f5971]">{step.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="relative workflow-grid bg-[#fffdf9] p-4">
+          <div className="absolute left-8 top-8 bottom-8 w-px bg-gradient-to-b from-[#7DC7E8] via-[#FFE38A] to-[#FF9F5C]" />
+          <div className="space-y-3">
+            {steps.map(({ Icon, title, desc, tone }, index) => (
+              <div key={title} className={`relative pl-10 workflow-node-pop delay-node-${Math.min(index + 1, 4)}`}>
+                <div className={`absolute left-0 top-4 h-8 w-8 rounded-2xl bg-gradient-to-br ${tone} flex items-center justify-center border border-white shadow-[0_8px_20px_rgba(91,84,58,0.12)]`}>
+                  <Icon size={15} className="text-[#18202B]" />
+                </div>
+                <div className="rounded-[22px] bg-white/92 border border-[#efe4d0] p-4 shadow-[0_12px_30px_rgba(91,84,58,0.10)]">
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="text-[15px] font-semibold tracking-[-0.03em] text-[#18202B]">{title}</h3>
+                    <span className="rounded-full bg-[#eef8fb] px-2.5 py-1 text-[10px] font-semibold text-[#3d8caf]">Ready</span>
+                  </div>
+                  <p className="mt-1 text-[12px] leading-relaxed text-[#756c61]">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 rounded-[24px] bg-white border border-[#efe4d0] p-3 shadow-[0_18px_45px_rgba(91,84,58,0.13)]">
+            <div className="h-[86px] rounded-2xl mb-3 bg-[radial-gradient(circle_at_50%_35%,#fff8d7,transparent_28%),radial-gradient(circle_at_38%_42%,#dff5ff,transparent_30%),linear-gradient(135deg,#fffdf8,#ffe3bf)] flex items-center justify-center">
+              <AethosLogo size={50} />
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-[13px] font-semibold text-[#18202B]">Workflow generated</p>
+                <p className="text-[11px] text-[#766d63]">Review output before activation</p>
+              </div>
+              <button className="h-9 px-4 rounded-xl bg-[#18202B] text-white text-[11px] font-semibold">View</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WorkflowNodes({ projectName, projectPrompt }: { projectName?: string; projectPrompt?: string }) {
+  return (
+    <>
+    <div className="hidden sm:block flex-1 p-4 sm:p-6 overflow-hidden workflow-enter">
       <div className="relative mx-auto h-full max-w-[980px] rounded-[28px] overflow-hidden bg-[#fffdf9] border border-white/90 shadow-[0_34px_80px_rgba(91,84,58,0.18)]">
         <div className="absolute inset-y-0 left-0 w-10 bg-[#171717] z-20 flex flex-col items-center py-4 gap-3">
           <div className="h-6 w-6 rounded-lg bg-[#fff2bd] flex items-center justify-center">
@@ -294,7 +368,7 @@ function WorkflowNodes() {
           <div className="absolute top-4 left-5 right-5 h-10 rounded-2xl bg-white/82 border border-[#efe4d0] flex items-center justify-between px-4 shadow-[0_10px_26px_rgba(91,84,58,0.08)]">
             <div className="flex items-center gap-2 text-[12px] text-[#6d645b]">
               <PlayCircle size={14} className="text-[#7DC7E8]" />
-              Weekly report automation
+              {projectName ?? "Weekly report automation"}
             </div>
             <div className="flex items-center gap-2">
               <span className="h-6 px-2 rounded-full bg-[#eef8fb] flex items-center text-[11px] font-semibold text-[#3d8caf]">AI generated</span>
@@ -321,7 +395,7 @@ function WorkflowNodes() {
           </svg>
 
           <div className="absolute left-[9%] top-[35%] h-3 w-3 rounded-full bg-[#18202B] shadow-[0_0_0_7px_rgba(24,32,43,0.06)]" />
-          <WorkflowNodeCard className="left-[18%] top-[20%] delay-node-1" icon={Calendar} title="Schedule trigger" subtitle="Every Monday at 9 AM" accent="linear-gradient(135deg,#e4f7ff,#fff4cb)" />
+          <WorkflowNodeCard className="left-[18%] top-[20%] delay-node-1" icon={Calendar} title="Schedule trigger" subtitle={projectPrompt ? "From task request" : "Every Monday at 9 AM"} accent="linear-gradient(135deg,#e4f7ff,#fff4cb)" />
           <WorkflowNodeCard className="left-[39%] top-[36%] delay-node-2" icon={Sheet} title="Fetch sales sheet" subtitle="Read newest rows" accent="linear-gradient(135deg,#edf9ef,#e6f7ff)" />
           <WorkflowNodeCard className="left-[34%] top-[62%] delay-node-3" icon={Bot} title="AI summarizer" subtitle="Draft clean highlights" accent="linear-gradient(135deg,#fff4cb,#ffe1c5)" />
           <WorkflowNodeCard className="left-[66%] top-[24%] delay-node-4" icon={FileText} title="Review report" subtitle="Human-friendly card" accent="linear-gradient(135deg,#f0ecff,#fff4cb)" />
@@ -354,6 +428,8 @@ function WorkflowNodes() {
         </div>
       </div>
     </div>
+    <MobileWorkflowNodes projectName={projectName} projectPrompt={projectPrompt} />
+    </>
   );
 }
 
@@ -457,11 +533,11 @@ function EmptyState({ inputValue, onInputChange, onSubmit, onChipClick }: Omit<W
 }
 
 /* ── Main export ── */
-export function WorkflowCanvas({ state, inputValue, onInputChange, onSubmit, onChipClick }: WorkflowCanvasProps) {
+export function WorkflowCanvas({ state, inputValue, projectName, projectPrompt, onInputChange, onSubmit, onChipClick }: WorkflowCanvasProps) {
   return (
-    <div className="flex-1 relative overflow-hidden flex items-stretch p-0 sm:p-0">
+    <div className="flex-1 min-h-0 relative overflow-hidden flex items-stretch p-0 sm:p-0">
       <div
-        className="flex-1 overflow-hidden flex flex-col"
+        className="flex-1 min-h-0 overflow-hidden flex flex-col"
         style={{
           background:
             "radial-gradient(ellipse 70% 55% at 15% 15%, rgba(147,217,249,0.68) 0%, transparent 60%), " +
@@ -481,8 +557,8 @@ export function WorkflowCanvas({ state, inputValue, onInputChange, onSubmit, onC
             onChipClick={onChipClick}
           />
         )}
-        {state === "loading" && <LoadingState />}
-        {state === "workflow" && <WorkflowNodes />}
+        {state === "loading" && <LoadingState projectName={projectName} />}
+        {state === "workflow" && <WorkflowNodes projectName={projectName} projectPrompt={projectPrompt} />}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { AethosLogo } from "./AethosLogo";
+import { useLocation } from "wouter";
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -13,6 +14,16 @@ function TemplateIcon() {
       <line x1="16" y1="13" x2="8" y2="13" />
       <line x1="16" y1="17" x2="8" y2="17" />
       <line x1="10" y1="9" x2="8" y2="9" />
+    </svg>
+  );
+}
+
+function ProjectsIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h3.2l1.8 2H18.5A2.5 2.5 0 0 1 21 9.5v7A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z" />
+      <path d="M7 12h10" />
+      <path d="M7 15h6" />
     </svg>
   );
 }
@@ -44,14 +55,17 @@ function SettingsIcon() {
 }
 
 const navItems = [
-  { icon: null, label: "My Workflows", active: true },
-  { icon: TemplateIcon, label: "Templates", active: false },
-  { icon: ActivityIcon, label: "Activity", active: false },
-  { icon: IntegrationsIcon, label: "Integrations", active: false },
-  { icon: SettingsIcon, label: "Settings", active: false },
+  { icon: null, label: "My Workflows", href: "/" },
+  { icon: ProjectsIcon, label: "Projects", href: "/projects" },
+  { icon: TemplateIcon, label: "Templates", href: "/templates" },
+  { icon: ActivityIcon, label: "Activity", href: "/activity" },
+  { icon: IntegrationsIcon, label: "Integrations", href: "/integrations" },
+  { icon: SettingsIcon, label: "Settings", href: "/settings" },
 ];
 
 export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
+  const [location, navigate] = useLocation();
+
   return (
     <>
       {/* Mobile overlay */}
@@ -78,9 +92,15 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           borderRight: "1px solid rgba(132,105,72,0.12)",
         }}
       >
-        {navItems.map(({ icon: Icon, label, active }) => (
+        {navItems.map(({ icon: Icon, label, href }) => {
+          const active = href === "/" ? location === "/" : location.startsWith(href);
+          return (
           <button
             key={label}
+            onClick={() => {
+              navigate(href);
+              onClose?.();
+            }}
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13.5px] font-medium text-left w-full group transition-all duration-150"
             style={
               active
@@ -115,7 +135,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             </span>
             <span className={active ? "font-semibold" : ""}>{label}</span>
           </button>
-        ))}
+        )})}
       </aside>
     </>
   );
